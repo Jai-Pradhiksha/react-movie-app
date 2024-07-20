@@ -7,17 +7,11 @@ import './App.css';
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      setError(null);
-      try {
-        const response = await axios.get(`http://www.omdbapi.com/?s=${searchTerm}&apikey=afbe17fe`);
+      const response = await axios.get(`http://www.omdbapi.com/?s=${searchTerm}&apikey=afbe17fe`);
         setMovies(response.data.Search);
-      } catch (err) {
-        setError(err.message);
-      }
     };
 
     if (searchTerm) {
@@ -38,11 +32,7 @@ const App = () => {
           Search
         </Button>
       </Form>
-      {error? (
-        <Alert variant="danger">
-          An error occurred while fetching data: {error}
-        </Alert>
-      ) : (
+      
         <Row className="d-flex flex-wrap justify-content-center">
           {movies && movies.map((movie) => (
             <Col key={movie.imdbID} xs={12} sm={6} md={4} lg={3} className="mb-4">
@@ -56,7 +46,7 @@ const App = () => {
             </Col>
           ))}
         </Row>
-      )}
+      
     </Container>
   );
 };
